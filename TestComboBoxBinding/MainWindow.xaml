@@ -7,105 +7,153 @@
         Title="MainWindow" Width="500" Height="250"
         d:DataContext="{d:DesignData Type=local:MainWindow,
                                      IsDesignTimeCreatable=True}"
-        mc:Ignorable="d">
-    <Grid>
+        SizeToContent="WidthAndHeight" mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0,0,5,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="ComboBox">
+
+            <Setter Property="Margin" Value="0,3,0,3" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Padding" Value="2" />
+        </Style>
+    </Window.Resources>
+
+    <Grid TextElement.FontSize="14">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Margin="3"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Content="Name:" />
-            <TextBox x:Name="nameTextBox" Grid.Row="0" Grid.Column="1"
-                     Width="120" Height="23" Margin="3"
-                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                     Text="{Binding BoundReader.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+        <Border Grid.RowSpan="2" Padding="4">
+            <StackPanel Grid.IsSharedSizeScope="True">
 
-            <Label Grid.Row="1" Grid.Column="0" Margin="3"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Content="Book:" />
-            <TextBox x:Name="bookIdTextBox" Grid.Row="1" Grid.Column="1"
-                     Width="120" Height="23" Margin="3"
-                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                     Text="{Binding BoundReader.BookId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                <Border BorderThickness="0,0,0,1">
+                    <Border.BorderBrush>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <Rectangle Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                                           Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
+                                           Stroke="LightBlue" StrokeDashArray="1 3" StrokeThickness="1" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Border.BorderBrush>
 
-            <Label Grid.Row="2" Grid.Column="0" Margin="3"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Content="Book Combo:" />
-            <ComboBox Grid.Row="2" Grid.Column="1"
-                      DisplayMemberPath="DisplayTitle"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Name:" />
+                        <TextBox Grid.Column="1" Text="{Binding BoundReader.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                    </Grid>
+                </Border>
+
+                <Border BorderBrush="LightBlue" BorderThickness="0,0,0,1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Book Combo:" />
+                        <ComboBox Grid.Column="1" DisplayMemberPath="DisplayTitle"
+                                  ItemsSource="{Binding Books}"
+                                  SelectedItem="{Binding BoundReader.Book}"
+                                  SelectedValue="{Binding BoundReader.BookId}"
+                                  SelectedValuePath="Id" />
+                    </Grid>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Book:" />
+                    <TextBlock Grid.Column="1" Text="{Binding BoundReader.Book.Title, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="BookId:" />
+                    <TextBlock Grid.Column="1" Text="{Binding BoundReader.BookId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                </Grid>
+
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1">
+            <DataGrid HorizontalAlignment="Left" AutoGenerateColumns="False"
+                      EnableRowVirtualization="True"
+                      IsSynchronizedWithCurrentItem="True"
                       ItemsSource="{Binding Books}"
-                      SelectedValue="{Binding BoundReader.BookId}"
-                      SelectedValuePath="Id" />
+                      RowDetailsVisibilityMode="VisibleWhenSelected">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+                    <DataGridTextColumn MinWidth="100" MaxWidth="200"
+                                        Binding="{Binding Title}"
+                                        Header="Title" />
+                    <DataGridTextColumn Binding="{Binding DisplayTitle, Mode=OneWay}" Header="DisplayTitle" />
 
-        </Grid>
-        <DataGrid Grid.Column="1" AutoGenerateColumns="False"
-                  EnableRowVirtualization="True"
-                  IsSynchronizedWithCurrentItem="True"
-                  ItemsSource="{Binding Books}"
-                  RowDetailsVisibilityMode="VisibleWhenSelected">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="idColumn" Width="SizeToHeader"
-                                    Binding="{Binding Id}"
-                                    Header="Id" />
-                <DataGridTextColumn x:Name="titleColumn" Width="*"
-                                    Binding="{Binding Title}"
-                                    Header="Title" />
-                <DataGridTextColumn Width="SizeToHeader"
-                                    Binding="{Binding DisplayTitle, Mode=OneWay}"
-                                    Header="DisplayTitle" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1">
+            <StackPanel DataContext="{Binding Books/}" Grid.IsSharedSizeScope="True">
 
-            </DataGrid.Columns>
-        </DataGrid>
-        <Grid x:Name="grid1" Grid.Row="1" Grid.Column="1"
-              DataContext="{Binding Books/}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Margin="3"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Content="Display Title:" />
-            <TextBox x:Name="displayTitleTextBox" Grid.Row="0" Grid.Column="1"
-                     Width="120" Height="23" Margin="3"
-                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                     Text="{Binding DisplayTitle, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-            <Label Grid.Row="1" Grid.Column="0" Margin="3"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Content="Id:" />
-            <TextBox x:Name="idTextBox" Grid.Row="1" Grid.Column="1" Width="120"
-                     Height="23" Margin="3" HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-            <Label Grid.Row="2" Grid.Column="0" Margin="3"
-                   HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Content="Title:" />
-            <TextBox x:Name="titleTextBox" Grid.Row="2" Grid.Column="1"
-                     Width="120" Height="23" Margin="3"
-                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                     Text="{Binding Title, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-        </Grid>
 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Id:" />
+                    <TextBox Grid.Column="1" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Title:" />
+                    <TextBox Grid.Column="1" Text="{Binding Title, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Display Title:" />
+                    <TextBlock Grid.Column="1" Text="{Binding DisplayTitle, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                </Grid>
+            </StackPanel>
+        </Border>
 
     </Grid>
 </Window>

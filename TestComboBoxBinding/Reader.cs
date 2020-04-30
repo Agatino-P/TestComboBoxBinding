@@ -20,12 +20,17 @@ namespace TestComboBoxBinding
             }
         }
 
+
+        private Book _book= new Book(); 
+        public Book Book { get => _book; set { Set(() => Book, ref _book, value); }}
+
         private int _bookId;
         public int BookId { get => _bookId; set { Set(() => BookId, ref _bookId, value); }}
 
-        public Reader(string name="Name", int bookId= 0)
+        public Reader(string name="Name", Book book = null, int bookId= 0)
         {
             Name = name;
+            Book = book;
             BookId = bookId;
         }
 
