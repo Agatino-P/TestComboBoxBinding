@@ -39,9 +39,10 @@ namespace TestComboBoxBinding
             Books.Add(new Book(1, "Uno"));
             Books.Add(new Book(2, "Due"));
             Books.Add(new Book(3, "Tre"));
-            BoundReader = new Reader() { Name = "BoundReader", BookId = 2 };
+            BoundReader = new Reader() { Name = "BoundReader", BookId = 1 };
 
         }
 
+  
     }
 }

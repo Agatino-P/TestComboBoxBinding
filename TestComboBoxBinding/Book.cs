@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows;
 
 namespace TestComboBoxBinding
 {
@@ -14,6 +15,9 @@ namespace TestComboBoxBinding
 
         private string _title;
         public string Title { get => _title; set { Set(() => Title, ref _title, value); }}
+
+        private string _displayTitle;
+        public string DisplayTitle { get => $"{Id} - {Title}"; set { Set(() => DisplayTitle, ref _displayTitle, value); }}
 
         public Book(int id = 0, string title="Title")
         {
