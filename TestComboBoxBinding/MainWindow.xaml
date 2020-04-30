@@ -31,6 +31,20 @@
             <Setter Property="Margin" Value="2" />
             <Setter Property="Padding" Value="2" />
         </Style>
+        <Style x:Key="TwoColumnGrid" TargetType="ItemsControl">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="ItemsLabels" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="ItemsData" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid TextElement.FontSize="14">
@@ -43,7 +57,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Border Grid.RowSpan="2" Padding="4">
+
+
+        <Border Grid.RowSpan="1" Padding="4">
             <StackPanel Grid.IsSharedSizeScope="True">
 
                 <Border BorderThickness="0,0,0,1">
@@ -57,49 +73,32 @@
                         </VisualBrush>
                     </Border.BorderBrush>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
-                        </Grid.ColumnDefinitions>
+                    <ItemsControl Style="{DynamicResource TwoColumnGrid}">
                         <Label Content="Name:" />
                         <TextBox Grid.Column="1" Text="{Binding BoundReader.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                    </Grid>
+                    </ItemsControl>
                 </Border>
 
                 <Border BorderBrush="LightBlue" BorderThickness="0,0,0,1">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
-                        </Grid.ColumnDefinitions>
+                    <ItemsControl Style="{DynamicResource TwoColumnGrid}">
                         <Label Content="Book Combo:" />
                         <ComboBox Grid.Column="1" DisplayMemberPath="DisplayTitle"
                                   ItemsSource="{Binding Books}"
                                   SelectedItem="{Binding BoundReader.Book}"
                                   SelectedValue="{Binding BoundReader.BookId}"
                                   SelectedValuePath="Id" />
-                    </Grid>
+                    </ItemsControl>
                 </Border>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
-                    </Grid.ColumnDefinitions>
+                <ItemsControl Style="{DynamicResource TwoColumnGrid}">
                     <Label Content="Book:" />
                     <TextBlock Grid.Column="1" Text="{Binding BoundReader.Book.Title, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                </Grid>
+                </ItemsControl>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="Data" />
-                    </Grid.ColumnDefinitions>
+                <ItemsControl Style="{DynamicResource TwoColumnGrid}">
                     <Label Content="BookId:" />
                     <TextBlock Grid.Column="1" Text="{Binding BoundReader.BookId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-
-                </Grid>
+                </ItemsControl>
 
             </StackPanel>
         </Border>
@@ -120,6 +119,20 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Border>
+
+        <Border Grid.Row="1" Width="200" Grid.IsSharedSizeScope="True">
+            <StackPanel>
+                <ItemsControl Style="{DynamicResource TwoColumnGrid}">
+                    <Label Content="Row0    Col0" />
+                    <Label Grid.Column="1" Width="Auto" Content="Row0Col0" />
+                </ItemsControl>
+                <ItemsControl Style="{DynamicResource TwoColumnGrid}">
+                    <Label Content="Row1Col0" />
+                    <Label Grid.Column="1" Width="Auto" Content="Row1Col1" />
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
         <Border Grid.Row="1" Grid.Column="1">
             <StackPanel DataContext="{Binding Books/}" Grid.IsSharedSizeScope="True">
 
