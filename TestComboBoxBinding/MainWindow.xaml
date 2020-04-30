@@ -63,11 +63,11 @@
                 <DataGridTextColumn x:Name="idColumn" Width="SizeToHeader"
                                     Binding="{Binding Id}"
                                     Header="Id" />
-                <DataGridTextColumn x:Name="titleColumn" Width="SizeToHeader"
+                <DataGridTextColumn x:Name="titleColumn" Width="*"
                                     Binding="{Binding Title}"
                                     Header="Title" />
                 <DataGridTextColumn Width="SizeToHeader"
-                                    Binding="{Binding DisplayTitle}"
+                                    Binding="{Binding DisplayTitle, Mode=OneWay}"
                                     Header="DisplayTitle" />
 
             </DataGrid.Columns>
@@ -89,7 +89,7 @@
             <TextBox x:Name="displayTitleTextBox" Grid.Row="0" Grid.Column="1"
                      Width="120" Height="23" Margin="3"
                      HorizontalAlignment="Left" VerticalAlignment="Center"
-                     Text="{Binding DisplayTitle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                     Text="{Binding DisplayTitle, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
             <Label Grid.Row="1" Grid.Column="0" Margin="3"
                    HorizontalAlignment="Left" VerticalAlignment="Center"
                    Content="Id:" />
